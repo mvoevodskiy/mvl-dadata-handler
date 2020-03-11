@@ -2,13 +2,13 @@
   "name": "mvl-blank-project",
   "version": "0.0.1",
   "description": "",
-  "main": "src/mvlblankproject.js",
+  "main": "src/handlers/mvldadatahandler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mvloader": "^1.0.3",
-    "mvtools": "^1.0.7"
+    "dadata-suggestions": "^1.1.1",
+    "mvloader": "^1.0.3"
   },
   "devDependencies": {},
   "author": "mvoevodskiy",
