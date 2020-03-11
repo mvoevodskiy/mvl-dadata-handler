@@ -11,12 +11,17 @@ class mvlDadataBotCMSController extends MVLoaderBase {
         this.App = App;
     }
 
+    async initFinish() {
+        super.initFinish();
+        this.Dadata = this.App.ext.handlers.mvlDadata;
+    }
+
     findCity_act = async (ctx) => {
         let query = ctx.msg;
         let queryLow = query.toLowerCase();
         let cities = [];
-        let response = await this.App.ext.handlers.mvlDadata.getAddress(query);
-        console.log('QUERY: ', query, ' RESPONSE: ', response);
+        let response = await this.Dadata.getAddress(query);
+        // console.log('QUERY: ', query, ' RESPONSE: ', response);
         for (let city of response) {
             if (city.data.city_with_type === null) {
                 continue;
@@ -41,7 +46,7 @@ class mvlDadataBotCMSController extends MVLoaderBase {
         let queryLow = query.toLowerCase();
         let cities = [];
         let response = await this.App.ext.handlers.mvlDadata.getAddress(query);
-        console.log('QUERY: ', query, ' RESPONSE: ', response);
+        // console.log('QUERY: ', query, ' RESPONSE: ', response);
 
         if (!this.MT.empty(response[0])) {
             return response[0].data.region_with_type + ', ' + response[0].data.city_with_type === query;
