@@ -32,13 +32,13 @@ class mvlDadataHandler extends MVLoaderBase {
     }
 
     async get (method, query) {
-        console.log('DADATA HANDLER. GET. ARGUMENTS: ', arguments);
+        // console.log('DADATA HANDLER. GET. ARGUMENTS: ', arguments);
         let dadata = new DaData(this.config.apiKey, this.config.secretKey);
         if (typeof query === 'string') {
             query = {query};
         }
         query.count = query.count || this.config.limit;
-        console.log('DADATA HANDLER. GET. QUERY: ', query);
+        // console.log('DADATA HANDLER. GET. QUERY: ', query);
 
         return dadata[method](query)
             .then((data) => data.suggestions)
@@ -46,6 +46,15 @@ class mvlDadataHandler extends MVLoaderBase {
     }
 
     async getAddress (query) {
+        return this.get('address', query);
+    }
+
+    async getCity (query) {
+        if (typeof query === 'string') {
+            query = {query};
+        }
+        query.from_bound = { value: "city" };
+        query.to_bound = { value: "city" };
         return this.get('address', query);
     }
 

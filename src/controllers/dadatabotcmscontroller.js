@@ -18,18 +18,11 @@ class mvlDadataBotCMSController extends MVLoaderBase {
 
     findCity_act = async (ctx) => {
         let query = ctx.msg;
-        let queryLow = query.toLowerCase();
         let cities = [];
-        let response = await this.Dadata.getAddress(query);
+        let response = await this.Dadata.getCity(query);
         // console.log('QUERY: ', query, ' RESPONSE: ', response);
         for (let city of response) {
-            if (city.data.city_with_type === null) {
-                continue;
-            }
-            let cityName = city.data.region_with_type + ', ' + city.data.city_with_type;
-            if (cityName.toLowerCase().indexOf(queryLow) !== -1 && cities.indexOf(cityName) === -1) {
-                cities.push(cityName);
-            }
+            cities.push(city.value);
         }
         let parcel = new this.App.ext.handlers.BotHandler.Bot.config.classes.Parcel();
         parcel.message = ctx.lexicon('common.msg.cityChooseFromListOrEnter');
@@ -43,13 +36,16 @@ class mvlDadataBotCMSController extends MVLoaderBase {
 
     findCity_vld = async (ctx) => {
         let query = ctx.msg;
-        let queryLow = query.toLowerCase();
-        let cities = [];
-        let response = await this.App.ext.handlers.mvlDadata.getAddress(query);
+        let response = await this.App.ext.handlers.mvlDadata.getCity(query);
         // console.log('QUERY: ', query, ' RESPONSE: ', response);
 
-        if (!this.MT.empty(response[0])) {
-            return response[0].data.region_with_type + ', ' + response[0].data.city_with_type === query;
+        for (let city of response) {
+            if (city.value === query) {
+                return true;
+            }
+            // if (!this.MT.empty(response[0])) {
+            //     return response[0].data.region_with_type + ', ' + response[0].data.city_with_type === query;
+            // }
         }
         return false;
     }
