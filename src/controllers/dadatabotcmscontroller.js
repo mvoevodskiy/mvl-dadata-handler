@@ -25,12 +25,13 @@ class mvlDadataBotCMSController extends MVLoaderBase {
             cities.push(city.value);
         }
         let parcel = new this.App.ext.handlers.BotHandler.Bot.config.classes.Parcel();
-        parcel.message = ctx.lexicon('common.msg.cityChooseFromListOrEnter');
+        parcel.message = await ctx.lexicon('common.msg.cityChooseFromListOrEnter');
         let kb = new this.App.ext.handlers.BotHandler.Bot.config.classes.Keyboard(ctx);
         for (let name of cities) {
-            kb.addBtn(name);
+            await kb.addBtn(name);
         }
-        parcel.keyboard = kb.addBtnMenuMain().build();
+        await kb.fromKBObject({ inline: true })
+        parcel.keyboard = await kb.addBtnMenuMain().then(kb => kb.build());
         ctx.reply(parcel);
     };
 
